@@ -1,73 +1,136 @@
-# React + TypeScript + Vite
+# HelpDesk - Sistema de Gestión de Tickets
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web completa para la gestión de tickets de soporte técnico. Este proyecto consume una API REST en Laravel y presenta una interfaz moderna, responsiva y funcional.
 
-Currently, two official plugins are available:
+## Tabla de Contenidos
+- [Objetivo](#objetivo)
+- [Tecnologías y Stack](#tecnologías-y-stack)
+- [Decisiones Técnicas](#decisiones-técnicas)
+- [Instalación y Ejecución](#instalación-y-ejecución)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Futuras Mejoras](#futuras-mejoras)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Objetivo
+El objetivo de este proyecto es demostrar habilidades en **frontend**, enfocándose en buenas prácticas, consumo de APIs, manejo de estado global y una experiencia de usuario (UI/UX) pulida.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tecnologías y Stack
 
-## Expanding the ESLint configuration
+### Core
+* **React 19**: Biblioteca principal de UI.
+* **TypeScript**: Para tipado estático robusto y escalabilidad.
+* **Vite**: Build tool para un entorno de desarrollo rápido.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Estilos y Diseño
+* **TailwindCSS**: Utilizado para un estilizado rápido y consistente.
+* **Diseño**: Basado en principios de Clean UI, con soporte para **Dark Mode**.
+* **Iconografía**: Material Icons.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Gestión de Estado y Datos
+* **Zustand**: Elegido por su simplicidad y ligereza frente a Redux para el estado global (tickets, filtros, paginación).
+* **Axios**: Cliente HTTP para las peticiones a la API.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Decisiones Técnicas
+
+Durante el desarrollo se tomaron las siguientes decisiones para garantizar calidad y mantenibilidad:
+
+1.  **Arquitectura Modular**: Se separó la lógica en `hooks`, los componentes visuales en `components/ui`, y las vistas en `layout`, facilitando la reutilización y el testing.
+2.  **Estado Global con Zustand**: Se optó por Zustand en lugar de Redux o Context API puro para evitar el "boilerplate" excesivo y mejorar el rendimiento con selectores simples.
+3.  **Validaciones Inline**: Para mejorar la UX, las validaciones ocurren en tiempo real o al intentar enviar formularios, dando feedback inmediato al usuario mediante Toasts.
+4.  **Custom Hooks**: Se extrajo la lógica de negocio (CRUD de tickets) a `useTickets.ts` para mantener los componentes de la vista limpios.
+
+---
+
+## Instalación y Ejecución
+
+Sigue estos pasos para levantar el proyecto localmente.
+
+### Prerrequisitos
+* Node.js (v16 o superior)
+* Backend de Laravel corriendo en `http://127.0.0.1:8000`
+
+### Pasos
+
+1.  **Clonar el repositorio y entrar a la carpeta:**
+    ```bash
+    git clone <TU_URL_DEL_REPO>
+    cd <NOMBRE_DE_TU_CARPETA>
+    ```
+
+2.  **Instalar dependencias:**
+    ```bash
+    npm install
+    ```
+
+3.  **Ejecutar el entorno de desarrollo:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Abrir en el navegador:**
+    La aplicación estará disponible en: `http://localhost:5173`
+
+---
+
+## Estructura del Proyecto
+
+```text
+src/
+├── components/
+│   ├── ui/              # Componentes base reutilizables (Button, Badge, Toast, ThemeSwitch)
+│   ├── layout/          # Estructura principal (Sidebar, Header, Layout)
+│   └── tickets/         # Funcionalidad core (TicketsPage, Tabla, Modales de CRUD)
+├── hooks/
+│   ├── useTickets.ts    # Lógica de operaciones CRUD y consumo de API
+│   ├── useModal.ts      # Gestión de estado de ventanas modales
+│   └── useTheme.tsx     # Control de modo oscuro (Dark Mode)
+├── interfaces/
+│   └── index.ts         # Definiciones de tipos y contratos de TypeScript
+├── services/
+│   └── api.ts           # Cliente Axios configurado para la API de Laravel
+├── store/
+│   └── ticketStore.ts   # Estado global de la aplicación con Zustand
+├── utils/
+│   ├── constants.ts     # Enums y constantes (Prioridades, Estados)
+│   └── helpers.ts       # Funciones de utilidad y formateo
+├── HelpDeskApp.tsx      # Componente raíz de la aplicación
+└── main.tsx             # Punto de entrada de React/Vite
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Características Implementadas
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Gestión de Tickets
+- ✅ **CRUD Completo**: Crear, Leer, Editar y Eliminar tickets.
+- ✅ **Listado Avanzado**: Paginación integrada con el backend.
+- ✅ **Filtros y Búsqueda**: Filtrado por Estado, Prioridad y Búsqueda por Asunto (con *debounce*).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### UI / UX
+- ✅ **Dark Mode**: Detección automática y cambio manual.
+- ✅ **Feedback al Usuario**: Sistema de notificaciones (Toasts) para éxito y error.
+- ✅ **Estados de Carga**: Indicadores visuales durante peticiones a la API.
+- ✅ **Responsive**: Adaptable a diferentes tamaños de pantalla.
+
+---
+
+## 📈 Futuras Mejoras (What I would improve)
+*Como parte de la evaluación técnica, estas son las funcionalidades y optimizaciones que implementaría con más tiempo para escalar el sistema:*
+
+### Seguridad y Usuarios
+- **Sistema de Autenticación (Login)**: Implementar un flujo de acceso seguro con JWT para proteger las rutas y gestionar sesiones.
+- **Gestión de Roles**: Diferenciar permisos entre administradores de soporte y usuarios finales.
+
+### Colaboración y Comunicación
+- **Comentarios en Tickets**: Añadir una sección de historial de comentarios dentro de cada ticket para facilitar el seguimiento.
+- **Notificaciones de Cambios**: Implementar alertas en tiempo real o correos electrónicos cuando el estado de un ticket sea actualizado.
+
+### Funcionalidades del Sistema
+- **Sección de Configuración**: Panel de ajustes para que el usuario personalice su perfil y preferencias del sistema.
+- **Manejo de Adjuntos**: Permitir la carga de imágenes o documentos para proporcionar más contexto en los reportes de soporte.
+
+### Excelencia Técnica
+- **Testing Robusto**: Agregar **Unit Tests** (Vitest) y **E2E Tests** (Cypress) para asegurar la estabilidad de las operaciones críticas.
+- **Optimización de Caché**: Integrar **React Query (TanStack Query)** para manejar estados de "stale-while-revalidate" y reducir la latencia de la red.
+- **Documentación de Componentes**: Implementar **Storybook** para documentar la biblioteca de UI y facilitar la escalabilidad del diseño.
