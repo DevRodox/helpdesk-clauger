@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { ticketAPI } from '../services/api';
 import { useTicketStore } from '../store/ticketStore';
+import { ticketAPI } from '../services';
 import type { TicketFormData, ApiError } from '../interfaces';
-import { DEFAULT_PER_PAGE } from '../utils/constants';
+import { DEFAULT_PER_PAGE } from '../utils';
 
 export const useTickets = () => {
   const {
@@ -32,10 +32,8 @@ export const useTickets = () => {
         };
 
         if (filters.subject) params.subject = filters.subject;
-        if (filters.priority && filters.priority !== 'all')
-          params.priority = filters.priority;
-        if (filters.status && filters.status !== 'all')
-          params.status = filters.status;
+        if (filters.priority && filters.priority !== 'all') params.priority = filters.priority;
+        if (filters.status && filters.status !== 'all') params.status = filters.status;
         if (filters.sort_by) params.sort_by = filters.sort_by;
         if (filters.sort_dir) params.sort_dir = filters.sort_dir;
 
@@ -50,14 +48,7 @@ export const useTickets = () => {
         setLoading(false);
       }
     },
-    [
-      filters,
-      pagination.current_page,
-      setTickets,
-      setPagination,
-      setLoading,
-      setError,
-    ]
+    [filters, pagination.current_page, setTickets, setPagination, setLoading, setError],
   );
 
   const createTicket = useCallback(
@@ -78,7 +69,7 @@ export const useTickets = () => {
         setLoading(false);
       }
     },
-    [addTicket, fetchTickets, setLoading, setError]
+    [addTicket, fetchTickets, setLoading, setError],
   );
 
   const editTicket = useCallback(
@@ -98,7 +89,7 @@ export const useTickets = () => {
         setLoading(false);
       }
     },
-    [updateTicket, setLoading, setError]
+    [updateTicket, setLoading, setError],
   );
 
   const deleteTicket = useCallback(
@@ -118,7 +109,7 @@ export const useTickets = () => {
         setLoading(false);
       }
     },
-    [removeTicket, setLoading, setError]
+    [removeTicket, setLoading, setError],
   );
 
   const getTicketById = useCallback(
@@ -137,7 +128,7 @@ export const useTickets = () => {
         setLoading(false);
       }
     },
-    [setLoading, setError]
+    [setLoading, setError],
   );
 
   return {

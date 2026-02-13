@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { API_BASE_URL } from '../utils/constants';
+import { API_BASE_URL } from '../utils';
 import type {
   ApiError,
   TicketListResponse,
@@ -27,7 +27,7 @@ api.interceptors.response.use(
     };
 
     return Promise.reject(formattedError);
-  }
+  },
 );
 
 export const ticketAPI = {
@@ -45,7 +45,7 @@ export const ticketAPI = {
 
   update: (
     id: number,
-    ticketData: Partial<TicketFormData>
+    ticketData: Partial<TicketFormData>,
   ): Promise<{ success: boolean; data: Ticket }> => {
     return api.put(`/tickets/${id}`, ticketData);
   },

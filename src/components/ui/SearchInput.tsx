@@ -1,10 +1,10 @@
 import { type InputHTMLAttributes, forwardRef } from 'react';
 
-interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   onClear?: () => void;
 }
 
-export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
+export const SearchInput = forwardRef<HTMLInputElement, Props>(
   ({ onClear, value, className = '', ...props }, ref) => {
     return (
       <div className="relative">

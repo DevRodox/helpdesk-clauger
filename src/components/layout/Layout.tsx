@@ -16,7 +16,7 @@ export const Layout = ({ children, title = 'Gestión de Tickets' }: Props) => {
   };
 
   return (
-    <div className="h-screen flex overflow-hidden bg-background-light dark:bg-background-dark">
+    <div className="h-screen flex overflow-hidden bg-background-light dark:bg-background-dark transition-colors duration-500 ease-in-out">
       <Sidebar onBlockedFeature={handleBlockedFeature} />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -26,7 +26,7 @@ export const Layout = ({ children, title = 'Gestión de Tickets' }: Props) => {
       </div>
 
       <Toast
-        message="Funcionalidad no disponible"
+        message="Funcionalidad Limitada"
         type="info"
         isVisible={showToast}
         onClose={() => setShowToast(false)}

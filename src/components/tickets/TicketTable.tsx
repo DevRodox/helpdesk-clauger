@@ -1,0 +1,116 @@
+import { Badge } from '../ui';
+import { PRIORITY_LABELS, STATUS_LABELS, normalizePriority, normalizeStatus } from '../../utils';
+import type { Ticket, Status } from '../../interfaces';
+
+interface Props {
+  tickets: Ticket[];
+  isLoading: boolean;
+  onTicketClick: (id: number) => void;
+}
+
+export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
+  const getStatusIcon = (status: Status) => {
+    const icons = {
+      pending: 'schedule',
+      in_progress: 'autorenew',
+      resolved: 'check_circle',
+    };
+    return icons[status] || 'circle';
+  };
+
+  if (isLoading) {
+    return (
+      <div className="bg-white dark:bg-[#1a2632] rounded-xl border border-gray-200 dark:border-gray-700 p-12 text-center">
+        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <p className="mt-4 text-gray-500 dark:text-gray-400">Cargando tickets...</p>
+      </div>
+    );
+  }
+
+  if (tickets.length === 0) {
+    return (
+      <div className="bg-white dark:bg-[#1a2632] rounded-xl border border-gray-200 dark:border-gray-700 p-12 text-center">
+        <span className="material-icons text-gray-400 text-5xl">inbox</span>
+        <p className="mt-4 text-gray-500 dark:text-gray-400">No se encontraron tickets</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white dark:bg-[#1a2632] rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                ID
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Asunto
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Prioridad
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Estado
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Fecha de Creación
+              </th>
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {tickets.map((ticket) => {
+              const normalizedPriority = normalizePriority(ticket.priority);
+              const normalizedStatus = normalizeStatus(ticket.status);
+
+              return (
+                <tr
+                  key={ticket.id}
+                  className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors"
+                >
+                  <td className="px-4 py-4 text-gray-600 dark:text-gray-400 font-mono text-sm">
+                    #{ticket.id}
+                  </td>
+                  <td className="px-4 py-4 font-medium text-gray-900 dark:text-white">
+                    {ticket.subject}
+                  </td>
+                  <td className="px-4 py-4">
+                    <Badge
+                      type="priority"
+                      value={normalizedPriority}
+                      label={PRIORITY_LABELS[normalizedPriority]}
+                    />
+                  </td>
+                  <td className="px-4 py-4">
+                    <Badge
+                      type="status"
+                      value={normalizedStatus}
+                      label={STATUS_LABELS[normalizedStatus]}
+                      icon={getStatusIcon(normalizedStatus)}
+                    />
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-600 dark:text-gray-400">
+                    {ticket.created_at}
+                  </td>
+                  <td className="px-4 py-4 text-right">
+                    <button
+                      onClick={() => onTicketClick(ticket.id)}
+                      className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                      aria-label="Ver detalles del ticket"
+                    >
+                      <span className="material-icons text-sm">more_horiz</span>
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};

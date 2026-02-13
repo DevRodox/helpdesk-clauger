@@ -5,4 +5,5 @@ export * from './Modal';
 export * from './PrioritySelector';
 export * from './SearchInput';
 export * from './Select';
+export * from './ThemeSwitch';
 export * from './Toast';
