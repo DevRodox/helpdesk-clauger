@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #137fec;
+  --color-primary-hover: #106cc9;
+  --color-background-light: #f6f7f8;
+  --color-background-dark: #101922;
+  
+  --font-family-display: 'Inter', sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
