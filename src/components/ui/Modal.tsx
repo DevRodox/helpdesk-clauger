@@ -54,7 +54,7 @@ export const Modal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
     >
@@ -65,31 +65,33 @@ export const Modal = ({
       />
 
       <div
-        className={`relative bg-white dark:bg-[#1a2632] rounded-xl shadow-2xl ${maxWidthClasses[maxWidth]} w-full transform transition-all border border-gray-100 dark:border-gray-700 flex flex-col overflow-hidden`}
+        className={`relative bg-white dark:bg-[#1a2632] rounded-xl shadow-2xl ${maxWidthClasses[maxWidth]} w-full transform transition-all border border-gray-100 dark:border-gray-700 flex flex-col overflow-hidden max-h-[90vh] sm:max-h-[85vh]`}
       >
-        <div className="px-6 py-5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between bg-white dark:bg-[#1a2632]">
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <div className="sticky top-0 z-10 px-4 sm:px-6 py-4 sm:py-5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between bg-white dark:bg-[#1a2632]">
+          <div className="flex-1 min-w-0 pr-4">
+            <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">
               {title}
             </h2>
             {subtitle && (
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
                 {subtitle}
               </p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
+            className="shrink-0 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors p-1"
           >
             <span className="material-icons">close</span>
           </button>
         </div>
 
-        <div className="px-6 py-6">{children}</div>
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6">
+          {children}
+        </div>
 
         {footer && (
-          <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700 flex items-center justify-end gap-3">
+          <div className="sticky bottom-0 z-10 px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3">
             {footer}
           </div>
         )}

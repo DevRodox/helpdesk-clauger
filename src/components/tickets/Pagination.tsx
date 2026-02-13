@@ -13,26 +13,30 @@ export const Pagination = ({ meta, onPageChange }: Props) => {
   const endItem = Math.min(current_page * per_page, total);
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-white dark:bg-[#1a2632] border-t border-gray-200 dark:border-gray-700">
-      <div className="text-sm text-gray-500 dark:text-gray-400">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 py-3 bg-white dark:bg-[#1a2632] border-t border-gray-200 dark:border-gray-700">
+      <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center sm:text-left">
         Mostrando <span className="font-medium">{startItem}</span> a{' '}
         <span className="font-medium">{endItem}</span> de{' '}
         <span className="font-medium">{total}</span> resultados
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 w-full sm:w-auto">
         <Button
           variant="secondary"
           onClick={() => onPageChange(current_page - 1)}
           disabled={current_page === 1}
+          className="flex-1 sm:flex-initial"
         >
-          Anterior
+          <span className="hidden sm:inline">Anterior</span>
+          <span className="sm:hidden material-icons text-sm">chevron_left</span>
         </Button>
         <Button
           variant="secondary"
           onClick={() => onPageChange(current_page + 1)}
           disabled={current_page === last_page}
+          className="flex-1 sm:flex-initial"
         >
-          Siguiente
+          <span className="hidden sm:inline">Siguiente</span>
+          <span className="sm:hidden material-icons text-sm">chevron_right</span>
         </Button>
       </div>
     </div>

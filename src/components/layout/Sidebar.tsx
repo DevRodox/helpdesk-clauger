@@ -3,6 +3,8 @@ import { useTheme } from '../../hooks';
 
 interface Props {
   onBlockedFeature: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 interface NavItem {
@@ -12,7 +14,7 @@ interface NavItem {
   blocked?: boolean;
 }
 
-export const Sidebar = ({ onBlockedFeature }: Props) => {
+export const Sidebar = ({ onBlockedFeature, isOpen, onClose }: Props) => {
   const { isDark, toggleTheme } = useTheme();
 
   const navItems: NavItem[] = [
@@ -21,20 +23,45 @@ export const Sidebar = ({ onBlockedFeature }: Props) => {
     { label: 'Configuración', icon: 'settings', blocked: true },
   ];
 
+  const handleNavClick = (item: NavItem) => {
+    if (item.blocked) {
+      onBlockedFeature();
+    }
+    if (window.innerWidth < 1024) {
+      onClose();
+    }
+  };
+
   return (
-    <aside className="w-64 bg-white dark:bg-[#1a2632] border-r border-gray-200 dark:border-gray-700 flex flex-col">
-      <div className="h-16 flex items-center px-6 border-b border-gray-100 dark:border-gray-700">
+    <aside
+      className={`
+        fixed lg:static inset-y-0 left-0 z-50
+        w-64 bg-white dark:bg-[#1a2632] 
+        border-r border-gray-200 dark:border-gray-700 
+        flex flex-col
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}
+    >
+      <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 dark:border-gray-700">
         <div className="flex items-center gap-2 text-primary font-bold text-xl">
           <span className="material-icons">support_agent</span>
           HelpDesk
         </div>
+        <button
+          onClick={onClose}
+          className="lg:hidden text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+          aria-label="Cerrar menú"
+        >
+          <span className="material-icons">close</span>
+        </button>
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
         {navItems.map((item) => (
           <button
             key={item.label}
-            onClick={item.blocked ? onBlockedFeature : undefined}
+            onClick={() => handleNavClick(item)}
             disabled={item.active}
             className={`w-full px-4 py-3 rounded-lg flex items-center gap-3 font-medium text-sm transition-colors ${
               item.active

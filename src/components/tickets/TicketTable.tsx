@@ -38,7 +38,7 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
 
   return (
     <div className="bg-white dark:bg-[#1a2632] rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-      <div className="overflow-x-auto">
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
@@ -110,6 +110,62 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
             })}
           </tbody>
         </table>
+      </div>
+
+      <div className="md:hidden divide-y divide-gray-100 dark:divide-gray-700">
+        {tickets.map((ticket) => {
+          const normalizedPriority = normalizePriority(ticket.priority);
+          const normalizedStatus = normalizeStatus(ticket.status);
+
+          return (
+            <div
+              key={ticket.id}
+              onClick={() => onTicketClick(ticket.id)}
+              className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors cursor-pointer"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
+                      #{ticket.id}
+                    </span>
+                  </div>
+                  <h3 className="font-medium text-gray-900 dark:text-white text-sm truncate">
+                    {ticket.subject}
+                  </h3>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onTicketClick(ticket.id);
+                  }}
+                  className="ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                  aria-label="Ver detalles"
+                >
+                  <span className="material-icons text-xl">chevron_right</span>
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <Badge
+                  type="priority"
+                  value={normalizedPriority}
+                  label={PRIORITY_LABELS[normalizedPriority]}
+                />
+                <Badge
+                  type="status"
+                  value={normalizedStatus}
+                  label={STATUS_LABELS[normalizedStatus]}
+                  icon={getStatusIcon(normalizedStatus)}
+                />
+              </div>
+
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {ticket.created_at}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
