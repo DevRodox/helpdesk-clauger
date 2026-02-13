@@ -8,6 +8,8 @@ Aplicación web completa para la gestión de tickets de soporte técnico. Este p
 - [Decisiones Técnicas](#decisiones-técnicas)
 - [Instalación y Ejecución](#instalación-y-ejecución)
 - [Estructura del Proyecto](#estructura-del-proyecto)
+- [Características Implementadas](#características-implementadas)
+- [Diseño Responsive](#diseño-responsive)
 - [Futuras Mejoras](#futuras-mejoras)
 
 ## Objetivo
@@ -41,6 +43,7 @@ Durante el desarrollo se tomaron las siguientes decisiones para garantizar calid
 2.  **Estado Global con Zustand**: Se optó por Zustand en lugar de Redux o Context API puro para evitar el "boilerplate" excesivo y mejorar el rendimiento con selectores simples.
 3.  **Validaciones Inline**: Para mejorar la UX, las validaciones ocurren en tiempo real o al intentar enviar formularios, dando feedback inmediato al usuario mediante Toasts.
 4.  **Custom Hooks**: Se extrajo la lógica de negocio (CRUD de tickets) a `useTickets.ts` para mantener los componentes de la vista limpios.
+5.  **Mobile-First Responsive**: Diseño adaptativo que garantiza una experiencia óptima en dispositivos móviles, tablets y desktop.
 
 ---
 
@@ -100,22 +103,66 @@ src/
 └── main.tsx             # Punto de entrada de React/Vite
 ```
 
+---
+
 ## Características Implementadas
 
 ### Gestión de Tickets
-- ✅ **CRUD Completo**: Crear, Leer, Editar y Eliminar tickets.
-- ✅ **Listado Avanzado**: Paginación integrada con el backend.
-- ✅ **Filtros y Búsqueda**: Filtrado por Estado, Prioridad y Búsqueda por Asunto (con *debounce*).
+- **CRUD Completo**: Crear, Leer, Editar y Eliminar tickets.
+- **Listado Avanzado**: Paginación integrada con el backend.
+- **Filtros y Búsqueda**: Filtrado por Estado, Prioridad y Búsqueda por Asunto (con *debounce*).
 
 ### UI / UX
-- ✅ **Dark Mode**: Detección automática y cambio manual.
-- ✅ **Feedback al Usuario**: Sistema de notificaciones (Toasts) para éxito y error.
-- ✅ **Estados de Carga**: Indicadores visuales durante peticiones a la API.
-- ✅ **Responsive**: Adaptable a diferentes tamaños de pantalla.
+- **Dark Mode**: Detección automática y cambio manual.
+- **Feedback al Usuario**: Sistema de notificaciones (Toasts) para éxito y error.
+- **Estados de Carga**: Indicadores visuales durante peticiones a la API.
+- **Responsive**: Adaptable a diferentes tamaños de pantalla.
 
 ---
 
-## 📈 Futuras Mejoras (What I would improve)
+## Diseño Responsive
+
+La aplicación está completamente optimizada para todos los tamaños de pantalla, garantizando una experiencia de usuario excepcional en cualquier dispositivo.
+
+### Características Responsive Implementadas
+
+#### Mobile (< 640px)
+- **Sidebar Oculto**: Navegación mediante menú hamburguesa en el header para maximizar el espacio de contenido
+- **Vista de Tarjetas**: Los tickets se muestran en formato de tarjetas compactas en lugar de tabla, optimizando la lectura en pantallas pequeñas
+- **Filtros Apilados**: Los filtros se reorganizan verticalmente para mejor usabilidad táctil
+- **Botones Full-Width**: Los CTAs ocupan todo el ancho para facilitar el tap y mejorar la accesibilidad
+- **Modales Optimizados**: Header y footer sticky con scroll interno para aprovechar mejor el espacio vertical
+
+#### Tablet (640px - 1024px)
+- **Layout Híbrido**: Combinación equilibrada de elementos móvil y desktop
+- **Sidebar Toggle**: El sidebar puede ocultarse/mostrarse según preferencia del usuario
+- **Filtros en Fila**: Los selectores se mantienen en una sola línea cuando el espacio lo permite
+- **Navegación Flexible**: Adaptación inteligente del menú según el espacio disponible
+
+#### Desktop (>= 1024px)
+- **Sidebar Permanente**: Navegación siempre visible para acceso rápido
+- **Vista de Tabla Completa**: Información detallada en formato tabular con todas las columnas
+- **Layout Espacioso**: Padding amplio para mejor legibilidad y aprovechamiento del espacio
+- **Interacciones Avanzadas**: Hover states y transiciones suaves
+
+### Breakpoints Utilizados
+```css
+sm: 640px   /* Small devices (mobile landscape) */
+md: 768px   /* Tablets */
+lg: 1024px  /* Small desktops */
+xl: 1280px  /* Large desktops */
+```
+
+### Principios de Diseño Mobile-First
+- **Touch-Friendly**: Áreas de toque de al menos 44x44px en todos los elementos interactivos
+- **Progressive Enhancement**: Funcionalidad básica garantizada en todos los dispositivos, con mejoras incrementales
+- **Performance**: Optimización de assets y carga condicional según el dispositivo
+- **Accessibility**: Navegación por teclado y lectores de pantalla en todas las resoluciones
+
+---
+
+## Futuras Mejoras
+
 *Como parte de la evaluación técnica, estas son las funcionalidades y optimizaciones que implementaría con más tiempo para escalar el sistema:*
 
 ### Seguridad y Usuarios
