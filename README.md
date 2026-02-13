@@ -59,10 +59,9 @@ Sigue estos pasos para levantar el proyecto localmente.
 
 1.  **Clonar el repositorio y entrar a la carpeta:**
     ```bash
-    git clone <TU_URL_DEL_REPO>
-    cd <NOMBRE_DE_TU_CARPETA>
+    git clone https://github.com/DevRodox/helpdesk-clauger.git
+    cd helpdesk-clauger
     ```
-
 2.  **Instalar dependencias:**
     ```bash
     npm install
