@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, Input, Select, PrioritySelector } from '../ui';
-import { useTickets } from '../../hooks';
-import { STATUS_LABELS } from '../../utils';
+import { useTickets, useLanguage } from '../../hooks';
 import type { TicketFormData, Status } from '../../interfaces';
 
 interface Props {
@@ -12,6 +11,7 @@ interface Props {
 
 export const CreateTicketModal = ({ isOpen, onClose, onSuccess }: Props) => {
   const { createTicket, isLoading } = useTickets();
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState<TicketFormData>({
     subject: '',
@@ -22,16 +22,16 @@ export const CreateTicketModal = ({ isOpen, onClose, onSuccess }: Props) => {
   const [errors, setErrors] = useState<{ subject?: string }>({});
 
   const statusOptions = [
-    { value: 'pending', label: STATUS_LABELS.pending },
-    { value: 'in_progress', label: STATUS_LABELS.in_progress },
-    { value: 'resolved', label: STATUS_LABELS.resolved },
+    { value: 'pending', label: t.status.pending },
+    { value: 'in_progress', label: t.status.in_progress },
+    { value: 'resolved', label: t.status.resolved },
   ];
 
   const validate = () => {
     const newErrors: { subject?: string } = {};
 
     if (!formData.subject.trim()) {
-      newErrors.subject = 'El asunto es obligatorio';
+      newErrors.subject = t.tickets.subjectRequired;
     }
 
     setErrors(newErrors);
@@ -61,23 +61,23 @@ export const CreateTicketModal = ({ isOpen, onClose, onSuccess }: Props) => {
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title="Crear Nuevo Ticket"
-      subtitle="Complete los detalles para registrar la incidencia."
+      title={t.tickets.createNew}
+      subtitle={t.tickets.createSubtitle}
       footer={
         <>
           <Button variant="secondary" onClick={handleClose} disabled={isLoading}>
-            Cancelar
+            {t.common.cancel}
           </Button>
           <Button variant="primary" icon="save" onClick={handleSubmit} disabled={isLoading}>
-            {isLoading ? 'Guardando...' : 'Guardar Ticket'}
+            {isLoading ? t.tickets.saving : t.tickets.saveTicket}
           </Button>
         </>
       }
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         <Input
-          label="Asunto"
-          placeholder="Breve descripción del problema"
+          label={t.tickets.subject}
+          placeholder={t.tickets.subjectPlaceholder}
           value={formData.subject}
           onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
           error={errors.subject}
@@ -86,13 +86,13 @@ export const CreateTicketModal = ({ isOpen, onClose, onSuccess }: Props) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <PrioritySelector
-            label="Prioridad"
+            label={t.tickets.priority}
             value={formData.priority}
             onChange={(priority) => setFormData({ ...formData, priority })}
           />
 
           <Select
-            label="Estado"
+            label={t.tickets.status}
             options={statusOptions}
             value={formData.status}
             onChange={(e) => setFormData({ ...formData, status: e.target.value as Status })}

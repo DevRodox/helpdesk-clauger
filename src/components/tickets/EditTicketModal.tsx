@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Modal, Button, Input, Select, PrioritySelector } from '../ui';
-import { useTickets } from '../../hooks';
-import { normalizePriority, normalizeStatus, STATUS_LABELS} from '../../utils';
+import { useTickets, useLanguage } from '../../hooks';
+import { normalizePriority, normalizeStatus } from '../../utils';
 import type { TicketFormData, Status, Ticket } from '../../interfaces';
 
 interface Props {
@@ -12,14 +12,9 @@ interface Props {
   onDelete: () => void;
 }
 
-export const EditTicketModal = ({
-  isOpen,
-  ticketId,
-  onClose,
-  onSuccess,
-  onDelete,
-}: Props) => {
+export const EditTicketModal = ({ isOpen, ticketId, onClose, onSuccess, onDelete }: Props) => {
   const { editTicket, getTicketById, isLoading } = useTickets();
+  const { t } = useLanguage();
 
   const [ticket, setTicket] = useState<Ticket | null>(null);
   const [formData, setFormData] = useState<TicketFormData>({
@@ -31,9 +26,9 @@ export const EditTicketModal = ({
   const [errors, setErrors] = useState<{ subject?: string }>({});
 
   const statusOptions = [
-    { value: 'pending', label: STATUS_LABELS.pending },
-    { value: 'in_progress', label: STATUS_LABELS.in_progress },
-    { value: 'resolved', label: STATUS_LABELS.resolved },
+    { value: 'pending', label: t.status.pending },
+    { value: 'in_progress', label: t.status.in_progress },
+    { value: 'resolved', label: t.status.resolved },
   ];
 
   useEffect(() => {
@@ -58,7 +53,7 @@ export const EditTicketModal = ({
     const newErrors: { subject?: string } = {};
 
     if (!formData.subject.trim()) {
-      newErrors.subject = 'El asunto es obligatorio';
+      newErrors.subject = t.tickets.subjectRequired;
     }
 
     setErrors(newErrors);
@@ -93,19 +88,19 @@ export const EditTicketModal = ({
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={`Detalle del Ticket #${ticket.id}`}
-      subtitle="Edite los detalles del ticket o elimínelo si es necesario."
+      title={`${t.tickets.editTicket} #${ticket.id}`}
+      subtitle={t.tickets.editSubtitle}
       footer={
         <>
           <Button variant="danger" icon="delete" onClick={onDelete} disabled={isLoading}>
-            Eliminar Ticket
+            {t.tickets.deleteTicketButton}
           </Button>
           <div className="flex-1" />
           <Button variant="secondary" onClick={handleClose} disabled={isLoading}>
-            Cancelar
+            {t.common.cancel}
           </Button>
           <Button variant="primary" icon="save" onClick={handleSubmit} disabled={isLoading}>
-            {isLoading ? 'Guardando...' : 'Guardar Cambios'}
+            {isLoading ? t.tickets.saving : t.tickets.saveChanges}
           </Button>
         </>
       }
@@ -114,18 +109,18 @@ export const EditTicketModal = ({
         <div className="flex items-center gap-4 text-sm pb-4 border-b border-gray-100 dark:border-gray-700">
           <span className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
             <span className="material-icons text-sm">calendar_today</span>
-            Creado: {ticket.created_at}
+            {t.tickets.created}: {ticket.created_at}
           </span>
           <span className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
             <span className="material-icons text-sm">update</span>
-            Actualizado: {ticket.updated_at}
+            {t.tickets.updated}: {ticket.updated_at}
           </span>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
-            label="Asunto"
-            placeholder="Breve descripción del problema"
+            label={t.tickets.subject}
+            placeholder={t.tickets.subjectPlaceholder}
             value={formData.subject}
             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
             error={errors.subject}
@@ -134,13 +129,13 @@ export const EditTicketModal = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <PrioritySelector
-              label="Prioridad"
+              label={t.tickets.priority}
               value={formData.priority}
               onChange={(priority) => setFormData({ ...formData, priority })}
             />
 
             <Select
-              label="Estado"
+              label={t.tickets.status}
               options={statusOptions}
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value as Status })}

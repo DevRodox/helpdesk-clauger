@@ -1,5 +1,6 @@
 import { Badge } from '../ui';
-import { PRIORITY_LABELS, STATUS_LABELS, normalizePriority, normalizeStatus } from '../../utils';
+import { normalizePriority, normalizeStatus } from '../../utils';
+import { useLanguage } from '../../hooks';
 import type { Ticket, Status } from '../../interfaces';
 
 interface Props {
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
+  const { t } = useLanguage();
+
   const getStatusIcon = (status: Status) => {
     const icons = {
       pending: 'schedule',
@@ -22,7 +25,7 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
     return (
       <div className="bg-white dark:bg-[#1a2632] rounded-xl border border-gray-200 dark:border-gray-700 p-12 text-center">
         <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        <p className="mt-4 text-gray-500 dark:text-gray-400">Cargando tickets...</p>
+        <p className="mt-4 text-gray-500 dark:text-gray-400">{t.tickets.loadingTickets}</p>
       </div>
     );
   }
@@ -31,7 +34,7 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
     return (
       <div className="bg-white dark:bg-[#1a2632] rounded-xl border border-gray-200 dark:border-gray-700 p-12 text-center">
         <span className="material-icons text-gray-400 text-5xl">inbox</span>
-        <p className="mt-4 text-gray-500 dark:text-gray-400">No se encontraron tickets</p>
+        <p className="mt-4 text-gray-500 dark:text-gray-400">{t.tickets.noTickets}</p>
       </div>
     );
   }
@@ -46,19 +49,19 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
                 ID
               </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Asunto
+                {t.tickets.subject}
               </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Prioridad
+                {t.tickets.priority}
               </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Estado
+                {t.tickets.status}
               </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Fecha de Creación
+                {t.tickets.createdAt}
               </th>
               <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Acciones
+                {t.common.actions}
               </th>
             </tr>
           </thead>
@@ -82,14 +85,14 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
                     <Badge
                       type="priority"
                       value={normalizedPriority}
-                      label={PRIORITY_LABELS[normalizedPriority]}
+                      label={t.priority[normalizedPriority]}
                     />
                   </td>
                   <td className="px-4 py-4">
                     <Badge
                       type="status"
                       value={normalizedStatus}
-                      label={STATUS_LABELS[normalizedStatus]}
+                      label={t.status[normalizedStatus]}
                       icon={getStatusIcon(normalizedStatus)}
                     />
                   </td>
@@ -100,7 +103,7 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
                     <button
                       onClick={() => onTicketClick(ticket.id)}
                       className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                      aria-label="Ver detalles del ticket"
+                      aria-label={t.tickets.viewDetails}
                     >
                       <span className="material-icons text-sm">more_horiz</span>
                     </button>
@@ -140,7 +143,7 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
                     onTicketClick(ticket.id);
                   }}
                   className="ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-                  aria-label="Ver detalles"
+                  aria-label={t.tickets.viewDetails}
                 >
                   <span className="material-icons text-xl">chevron_right</span>
                 </button>
@@ -150,12 +153,12 @@ export const TicketTable = ({ tickets, isLoading, onTicketClick }: Props) => {
                 <Badge
                   type="priority"
                   value={normalizedPriority}
-                  label={PRIORITY_LABELS[normalizedPriority]}
+                  label={t.priority[normalizedPriority]}
                 />
                 <Badge
                   type="status"
                   value={normalizedStatus}
-                  label={STATUS_LABELS[normalizedStatus]}
+                  label={t.status[normalizedStatus]}
                   icon={getStatusIcon(normalizedStatus)}
                 />
               </div>

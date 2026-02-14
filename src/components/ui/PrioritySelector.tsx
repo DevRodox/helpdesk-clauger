@@ -1,4 +1,4 @@
-import { PRIORITY_LABELS } from '../../utils';
+import { useLanguage } from '../../hooks';
 import type { Priority } from '../../interfaces';
 
 interface Props {
@@ -14,6 +14,8 @@ export const PrioritySelector = ({
   onChange,
   label,
 }: Props) => {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-2">
       {label && (
@@ -33,7 +35,7 @@ export const PrioritySelector = ({
               className="sr-only peer"
             />
             <span className="block w-full py-1.5 text-center text-xs font-medium text-gray-500 dark:text-gray-400 rounded-md peer-checked:bg-white dark:peer-checked:bg-[#2c3b4a] peer-checked:text-primary peer-checked:shadow-sm transition-all hover:text-gray-700 dark:hover:text-gray-200">
-              {PRIORITY_LABELS[priority]}
+              {t.priority[priority]}
             </span>
           </label>
         ))}

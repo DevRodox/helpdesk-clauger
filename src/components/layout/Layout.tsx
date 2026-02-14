@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { Sidebar } from './Sidebar';
-import { Header } from './Header';
+import { Sidebar, Header } from './';
 import { Toast } from '../ui';
+import { useLanguage } from '../../hooks';
 
 interface Props {
   children: React.ReactNode;
   title?: string;
 }
 
-export const Layout = ({ children, title = 'Gestión de Tickets' }: Props) => {
+export const Layout = ({ children, title }: Props) => {
+  const { t } = useLanguage();
   const [showToast, setShowToast] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -42,7 +43,7 @@ export const Layout = ({ children, title = 'Gestión de Tickets' }: Props) => {
 
       <div className="flex-1 flex flex-col min-w-0">
         <Header
-          title={title}
+          title={title || t.tickets.title}
           onNotificationClick={handleBlockedFeature}
           onMenuClick={toggleSidebar}
         />
@@ -51,7 +52,7 @@ export const Layout = ({ children, title = 'Gestión de Tickets' }: Props) => {
       </div>
 
       <Toast
-        message="Funcionalidad Limitada"
+        message={t.toast.limitedFeature}
         type="info"
         isVisible={showToast}
         onClose={() => setShowToast(false)}

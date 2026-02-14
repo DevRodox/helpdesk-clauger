@@ -1,6 +1,7 @@
 export * from './Badge';
 export * from './Button';
 export * from './Input';
+export * from './LanguageSwitch';
 export * from './Modal';
 export * from './PrioritySelector';
 export * from './SearchInput';

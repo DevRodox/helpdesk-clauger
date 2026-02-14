@@ -1,9 +1,6 @@
 import { SearchInput, Select, Button } from '../ui';
 import { useTicketStore } from '../../store/ticketStore';
-import {
-  PRIORITY_LABELS,
-  STATUS_LABELS,
-} from '../../utils';
+import { useLanguage } from '../../hooks';
 
 interface Props {
   onCreateClick: () => void;
@@ -11,26 +8,27 @@ interface Props {
 
 export const TicketFilters = ({ onCreateClick }: Props) => {
   const { filters, setFilters } = useTicketStore();
+  const { t } = useLanguage();
 
   const priorityOptions = [
-    { value: 'all', label: 'Todas' },
-    { value: 'low', label: PRIORITY_LABELS.low },
-    { value: 'medium', label: PRIORITY_LABELS.medium },
-    { value: 'high', label: PRIORITY_LABELS.high },
+    { value: 'all', label: t.priority.all },
+    { value: 'low', label: t.priority.low },
+    { value: 'medium', label: t.priority.medium },
+    { value: 'high', label: t.priority.high },
   ];
 
   const statusOptions = [
-    { value: 'all', label: 'Todos' },
-    { value: 'pending', label: STATUS_LABELS.pending },
-    { value: 'in_progress', label: STATUS_LABELS.in_progress },
-    { value: 'resolved', label: STATUS_LABELS.resolved },
+    { value: 'all', label: t.status.all },
+    { value: 'pending', label: t.status.pending },
+    { value: 'in_progress', label: t.status.in_progress },
+    { value: 'resolved', label: t.status.resolved },
   ];
 
   return (
     <div className="space-y-4 mb-6">
       <div className="w-full lg:hidden">
         <SearchInput
-          placeholder="Buscar por asunto..."
+          placeholder={t.tickets.searchPlaceholder}
           value={filters.subject || ''}
           onChange={(e) => setFilters({ subject: e.target.value })}
           onClear={() => setFilters({ subject: '' })}
@@ -41,7 +39,7 @@ export const TicketFilters = ({ onCreateClick }: Props) => {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
           <div className="hidden lg:block flex-1 max-w-xs">
             <SearchInput
-              placeholder="Buscar por asunto..."
+              placeholder={t.tickets.searchPlaceholder}
               value={filters.subject || ''}
               onChange={(e) => setFilters({ subject: e.target.value })}
               onClear={() => setFilters({ subject: '' })}
@@ -84,8 +82,8 @@ export const TicketFilters = ({ onCreateClick }: Props) => {
           onClick={onCreateClick}
           className="w-full sm:w-auto"
         >
-          <span className="hidden sm:inline">Crear Ticket</span>
-          <span className="sm:hidden">Crear</span>
+          <span className="hidden sm:inline">{t.tickets.createTicket}</span>
+          <span className="sm:hidden">{t.common.create}</span>
         </Button>
       </div>
     </div>

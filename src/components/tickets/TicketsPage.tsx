@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useTickets, useModal } from '../../hooks';
+import { useTickets, useModal, useLanguage } from '../../hooks';
 import {
   TicketFilters,
   TicketTable,
@@ -13,6 +13,7 @@ import { Toast } from '../ui';
 export const TicketsPage = () => {
   const { tickets, pagination, isLoading, fetchTickets } = useTickets();
   const { isOpen, modalType, selectedId, openModal, closeModal } = useModal();
+  const { t } = useLanguage();
 
   const [toast, setToast] = useState<{
     show: boolean;
@@ -44,7 +45,7 @@ export const TicketsPage = () => {
   const handleCreateSuccess = () => {
     setToast({
       show: true,
-      message: 'Ticket creado exitosamente',
+      message: t.tickets.ticketCreated,
       type: 'success',
     });
   };
@@ -52,7 +53,7 @@ export const TicketsPage = () => {
   const handleEditSuccess = () => {
     setToast({
       show: true,
-      message: 'Ticket actualizado exitosamente',
+      message: t.tickets.ticketUpdated,
       type: 'success',
     });
   };
@@ -69,7 +70,7 @@ export const TicketsPage = () => {
     setTicketToDelete(null);
     setToast({
       show: true,
-      message: 'Ticket eliminado exitosamente',
+      message: t.tickets.ticketDeleted,
       type: 'success',
     });
   };
@@ -78,10 +79,10 @@ export const TicketsPage = () => {
     <div className="p-4 sm:p-6 lg:p-8">
       <div className="mb-4 sm:mb-6">
         <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white">
-          Gestión de Tickets
+          {t.tickets.title}
         </h1>
         <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Administra y responde a las solicitudes de soporte.
+          {t.tickets.subtitle}
         </p>
       </div>
 

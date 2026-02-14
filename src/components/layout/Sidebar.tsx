@@ -1,5 +1,5 @@
 import { ThemeSwitch } from '../ui';
-import { useTheme } from '../../hooks';
+import { useTheme,useLanguage } from '../../hooks';
 
 interface Props {
   onBlockedFeature: () => void;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 interface NavItem {
-  label: string;
+  labelKey: keyof typeof import('../../i18n/es').es.sidebar;
   icon: string;
   active?: boolean;
   blocked?: boolean;
@@ -16,11 +16,12 @@ interface NavItem {
 
 export const Sidebar = ({ onBlockedFeature, isOpen, onClose }: Props) => {
   const { isDark, toggleTheme } = useTheme();
+  const { t } = useLanguage();
 
   const navItems: NavItem[] = [
-    { label: 'Tickets', icon: 'confirmation_number', active: true },
-    { label: 'Usuarios', icon: 'people', blocked: true },
-    { label: 'Configuración', icon: 'settings', blocked: true },
+    { labelKey: 'tickets', icon: 'confirmation_number', active: true },
+    { labelKey: 'users', icon: 'people', blocked: true },
+    { labelKey: 'settings', icon: 'settings', blocked: true },
   ];
 
   const handleNavClick = (item: NavItem) => {
@@ -51,7 +52,7 @@ export const Sidebar = ({ onBlockedFeature, isOpen, onClose }: Props) => {
         <button
           onClick={onClose}
           className="lg:hidden text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
-          aria-label="Cerrar menú"
+          aria-label={t.sidebar.closeMenu}
         >
           <span className="material-icons">close</span>
         </button>
@@ -60,7 +61,7 @@ export const Sidebar = ({ onBlockedFeature, isOpen, onClose }: Props) => {
       <nav className="flex-1 p-4 space-y-1">
         {navItems.map((item) => (
           <button
-            key={item.label}
+            key={item.labelKey}
             onClick={() => handleNavClick(item)}
             disabled={item.active}
             className={`w-full px-4 py-3 rounded-lg flex items-center gap-3 font-medium text-sm transition-colors ${
@@ -72,7 +73,7 @@ export const Sidebar = ({ onBlockedFeature, isOpen, onClose }: Props) => {
             }`}
           >
             <span className="material-icons text-xl">{item.icon}</span>
-            {item.label}
+            {t.sidebar[item.labelKey]}
           </button>
         ))}
       </nav>
@@ -80,7 +81,7 @@ export const Sidebar = ({ onBlockedFeature, isOpen, onClose }: Props) => {
       <div className="p-4 border-t border-gray-100 dark:border-gray-700 space-y-2">
         <div className="w-full px-4 py-2 flex items-center justify-between">
           <span className="text-gray-500 dark:text-gray-400 font-medium text-sm">
-            Tema
+            {t.sidebar.theme}
           </span>
           <ThemeSwitch isDark={isDark} toggleTheme={toggleTheme} />
         </div>
@@ -90,7 +91,7 @@ export const Sidebar = ({ onBlockedFeature, isOpen, onClose }: Props) => {
           className="w-full px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg flex items-center gap-3 font-medium text-sm transition-colors"
         >
           <span className="material-icons text-xl">logout</span>
-          Cerrar Sesión
+          {t.sidebar.logout}
         </button>
       </div>
     </aside>
