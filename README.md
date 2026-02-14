@@ -1,150 +1,149 @@
-# HelpDesk - Sistema de Gestión de Tickets
+# HelpDesk - Ticket Management System
 
-Aplicación web completa para la gestión de tickets de soporte técnico. Este proyecto consume una API REST en Laravel y presenta una interfaz moderna, responsiva y funcional.
+Complete web application for technical support ticket management. This project consumes a Laravel REST API and presents a modern, responsive, and functional interface.
 
-## Tabla de Contenidos
-- [Objetivo](#objetivo)
-- [Tecnologías y Stack](#tecnologías-y-stack)
-- [Decisiones Técnicas](#decisiones-técnicas)
-- [Instalación y Ejecución](#instalación-y-ejecución)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Características Implementadas](#características-implementadas)
-- [Diseño Responsive](#diseño-responsive)
-- [Futuras Mejoras](#futuras-mejoras)
+## Table of Contents
+- [Objective](#objective)
+- [Technologies and Stack](#technologies-and-stack)
+- [Technical Decisions](#technical-decisions)
+- [Installation and Execution](#installation-and-execution)
+- [Project Structure](#project-structure)
+- [Implemented Features](#implemented-features)
+- [Responsive Design](#responsive-design)
+- [Future Improvements](#future-improvements)
 
-## Objetivo
-El objetivo de este proyecto es demostrar habilidades en **frontend**, enfocándose en buenas prácticas, consumo de APIs, manejo de estado global y una experiencia de usuario (UI/UX) pulida.
+## Objective
+The objective of this project is to demonstrate **frontend** skills, focusing on best practices, API consumption, global state management, and a polished user experience (UI/UX).
 
 ---
 
-## Tecnologías y Stack
+## Technologies and Stack
 
 ### Core
-* **React 19**: Biblioteca principal de UI.
-* **TypeScript**: Para tipado estático robusto y escalabilidad.
-* **Vite**: Build tool para un entorno de desarrollo rápido.
+* **React 19**: Main UI library.
+* **TypeScript**: For robust static typing and scalability.
+* **Vite**: Build tool for a fast development environment.
 
-### Estilos y Diseño
-* **TailwindCSS**: Utilizado para un estilizado rápido y consistente.
-* **Diseño**: Basado en principios de Clean UI, con soporte para **Dark Mode**.
-* **Iconografía**: Material Icons.
+### Styling and Design
+* **TailwindCSS**: Used for fast and consistent styling.
+* **Design**: Based on Clean UI principles, with **Dark Mode** support.
+* **Iconography**: Material Icons.
 
-### Gestión de Estado y Datos
-* **Zustand**: Elegido por su simplicidad y ligereza frente a Redux para el estado global (tickets, filtros, paginación).
-* **Axios**: Cliente HTTP para las peticiones a la API.
-
----
-
-## Decisiones Técnicas
-
-Durante el desarrollo se tomaron las siguientes decisiones para garantizar calidad y mantenibilidad:
-
-1.  **Arquitectura Modular**: Se separó la lógica en `hooks`, los componentes visuales en `components/ui`, y las vistas en `layout`, facilitando la reutilización y el testing.
-2.  **Estado Global con Zustand**: Se optó por Zustand en lugar de Redux o Context API puro para evitar el "boilerplate" excesivo y mejorar el rendimiento con selectores simples.
-3.  **Validaciones Inline**: Para mejorar la UX, las validaciones ocurren en tiempo real o al intentar enviar formularios, dando feedback inmediato al usuario mediante Toasts.
-4.  **Custom Hooks**: Se extrajo la lógica de negocio (CRUD de tickets) a `useTickets.ts` para mantener los componentes de la vista limpios.
-5.  **Mobile-First Responsive**: Diseño adaptativo que garantiza una experiencia óptima en dispositivos móviles, tablets y desktop.
+### State and Data Management
+* **Zustand**: Chosen for its simplicity and lightness compared to Redux for global state (tickets, filters, pagination).
+* **Axios**: HTTP client for API requests.
 
 ---
 
-## Instalación y Ejecución
+## Technical Decisions
 
-Sigue estos pasos para levantar el proyecto localmente.
+During development, the following decisions were made to ensure quality and maintainability:
 
-### Prerrequisitos
-* Node.js (v16 o superior)
-* Backend de Laravel corriendo en `http://127.0.0.1:8000`
+1.  **Modular Architecture**: Logic was separated into `hooks`, visual components into `components/ui`, and views into `layout`, facilitating reusability and testing.
+2.  **Global State with Zustand**: Zustand was chosen over Redux or pure Context API to avoid excessive boilerplate and improve performance with simple selectors.
+3.  **Inline Validations**: To enhance UX, validations occur in real-time or when submitting forms, providing immediate feedback to users via Toasts.
+4.  **Custom Hooks**: Business logic (ticket CRUD) was extracted to `useTickets.ts` to keep view components clean.
+5.  **Mobile-First Responsive**: Adaptive design that guarantees an optimal experience on mobile devices, tablets, and desktop.
 
-### Pasos
+---
 
-1.  **Clonar el repositorio y entrar a la carpeta:**
-    ```bash
+## Installation and Execution
+
+Follow these steps to run the project locally.
+
+### Prerequisites
+* Node.js (v16 or higher)
+* Laravel backend running at `http://127.0.0.1:8000`
+
+### Steps
+
+1.  **Clone the repository and enter the folder:**
+```bash
     git clone https://github.com/DevRodox/helpdesk-clauger.git
     cd helpdesk-clauger
-    ```
-2.  **Instalar dependencias:**
-    ```bash
+```
+2.  **Install dependencies:**
+```bash
     npm install
-    ```
+```
 
-3.  **Ejecutar el entorno de desarrollo:**
-    ```bash
+3.  **Run the development environment:**
+```bash
     npm run dev
-    ```
+```
 
-4.  **Abrir en el navegador:**
-    La aplicación estará disponible en: `http://localhost:5173`
+4.  **Open in browser:**
+    The application will be available at: `http://localhost:5173`
 
 ---
 
-## Estructura del Proyecto
-
+## Project Structure
 ```text
 src/
 ├── components/
-│   ├── ui/              # Componentes base reutilizables (Button, Badge, Toast, ThemeSwitch)
-│   ├── layout/          # Estructura principal (Sidebar, Header, Layout)
-│   └── tickets/         # Funcionalidad core (TicketsPage, Tabla, Modales de CRUD)
+│   ├── ui/              # Reusable base components (Button, Badge, Toast, ThemeSwitch)
+│   ├── layout/          # Main structure (Sidebar, Header, Layout)
+│   └── tickets/         # Core functionality (TicketsPage, Table, CRUD Modals)
 ├── hooks/
-│   ├── useTickets.ts    # Lógica de operaciones CRUD y consumo de API
-│   ├── useModal.ts      # Gestión de estado de ventanas modales
-│   └── useTheme.tsx     # Control de modo oscuro (Dark Mode)
+│   ├── useTickets.ts    # CRUD operations logic and API consumption
+│   ├── useModal.ts      # Modal window state management
+│   └── useTheme.tsx     # Dark Mode control
 ├── interfaces/
-│   └── index.ts         # Definiciones de tipos y contratos de TypeScript
+│   └── index.ts         # TypeScript type definitions and contracts
 ├── services/
-│   └── api.ts           # Cliente Axios configurado para la API de Laravel
+│   └── api.ts           # Axios client configured for Laravel API
 ├── store/
-│   └── ticketStore.ts   # Estado global de la aplicación con Zustand
+│   └── ticketStore.ts   # Application global state with Zustand
 ├── utils/
-│   ├── constants.ts     # Enums y constantes (Prioridades, Estados)
-│   └── helpers.ts       # Funciones de utilidad y formateo
-├── HelpDeskApp.tsx      # Componente raíz de la aplicación
-└── main.tsx             # Punto de entrada de React/Vite
+│   ├── constants.ts     # Enums and constants (Priorities, States)
+│   └── helpers.ts       # Utility and formatting functions
+├── HelpDeskApp.tsx      # Application root component
+└── main.tsx             # React/Vite entry point
 ```
 
 ---
 
-## Características Implementadas
+## Implemented Features
 
-### Gestión de Tickets
-- **CRUD Completo**: Crear, Leer, Editar y Eliminar tickets.
-- **Listado Avanzado**: Paginación integrada con el backend.
-- **Filtros y Búsqueda**: Filtrado por Estado, Prioridad y Búsqueda por Asunto (con *debounce*).
+### Ticket Management
+- **Complete CRUD**: Create, Read, Update, and Delete tickets.
+- **Advanced Listing**: Pagination integrated with the backend.
+- **Filters and Search**: Filtering by Status, Priority, and Search by Subject (with debounce).
 
 ### UI / UX
-- **Dark Mode**: Detección automática y cambio manual.
-- **Feedback al Usuario**: Sistema de notificaciones (Toasts) para éxito y error.
-- **Estados de Carga**: Indicadores visuales durante peticiones a la API.
-- **Responsive**: Adaptable a diferentes tamaños de pantalla.
+- **Dark Mode**: Automatic detection and manual switching.
+- **User Feedback**: Notification system (Toasts) for success and error states.
+- **Loading States**: Visual indicators during API requests.
+- **Responsive**: Adaptable to different screen sizes.
 
 ---
 
-## Diseño Responsive
+## Responsive Design
 
-La aplicación está completamente optimizada para todos los tamaños de pantalla, garantizando una experiencia de usuario excepcional en cualquier dispositivo.
+The application is fully optimized for all screen sizes, ensuring an exceptional user experience on any device.
 
-### Características Responsive Implementadas
+### Implemented Responsive Features
 
 #### Mobile (< 640px)
-- **Sidebar Oculto**: Navegación mediante menú hamburguesa en el header para maximizar el espacio de contenido
-- **Vista de Tarjetas**: Los tickets se muestran en formato de tarjetas compactas en lugar de tabla, optimizando la lectura en pantallas pequeñas
-- **Filtros Apilados**: Los filtros se reorganizan verticalmente para mejor usabilidad táctil
-- **Botones Full-Width**: Los CTAs ocupan todo el ancho para facilitar el tap y mejorar la accesibilidad
-- **Modales Optimizados**: Header y footer sticky con scroll interno para aprovechar mejor el espacio vertical
+- **Hidden Sidebar**: Navigation via hamburger menu in the header to maximize content space
+- **Card View**: Tickets are displayed in compact card format instead of a table, optimizing readability on small screens
+- **Stacked Filters**: Filters are reorganized vertically for better touch usability
+- **Full-Width Buttons**: CTAs occupy full width to facilitate tapping and improve accessibility
+- **Optimized Modals**: Sticky header and footer with internal scroll to better utilize vertical space
 
 #### Tablet (640px - 1024px)
-- **Layout Híbrido**: Combinación equilibrada de elementos móvil y desktop
-- **Sidebar Toggle**: El sidebar puede ocultarse/mostrarse según preferencia del usuario
-- **Filtros en Fila**: Los selectores se mantienen en una sola línea cuando el espacio lo permite
-- **Navegación Flexible**: Adaptación inteligente del menú según el espacio disponible
+- **Hybrid Layout**: Balanced combination of mobile and desktop elements
+- **Sidebar Toggle**: Sidebar can be hidden/shown based on user preference
+- **Filters in Row**: Selectors remain in a single line when space permits
+- **Flexible Navigation**: Intelligent menu adaptation based on available space
 
 #### Desktop (>= 1024px)
-- **Sidebar Permanente**: Navegación siempre visible para acceso rápido
-- **Vista de Tabla Completa**: Información detallada en formato tabular con todas las columnas
-- **Layout Espacioso**: Padding amplio para mejor legibilidad y aprovechamiento del espacio
-- **Interacciones Avanzadas**: Hover states y transiciones suaves
+- **Permanent Sidebar**: Always visible navigation for quick access
+- **Complete Table View**: Detailed information in tabular format with all columns
+- **Spacious Layout**: Ample padding for better readability and space utilization
+- **Advanced Interactions**: Hover states and smooth transitions
 
-### Breakpoints Utilizados
+### Breakpoints Used
 ```css
 sm: 640px   /* Small devices (mobile landscape) */
 md: 768px   /* Tablets */
@@ -152,31 +151,31 @@ lg: 1024px  /* Small desktops */
 xl: 1280px  /* Large desktops */
 ```
 
-### Principios de Diseño Mobile-First
-- **Touch-Friendly**: Áreas de toque de al menos 44x44px en todos los elementos interactivos
-- **Progressive Enhancement**: Funcionalidad básica garantizada en todos los dispositivos, con mejoras incrementales
-- **Performance**: Optimización de assets y carga condicional según el dispositivo
-- **Accessibility**: Navegación por teclado y lectores de pantalla en todas las resoluciones
+### Mobile-First Design Principles
+- **Touch-Friendly**: Touch areas of at least 44x44px on all interactive elements
+- **Progressive Enhancement**: Basic functionality guaranteed on all devices, with incremental improvements
+- **Performance**: Asset optimization and conditional loading based on device
+- **Accessibility**: Keyboard navigation and screen readers at all resolutions
 
 ---
 
-## Futuras Mejoras
+## Future Improvements
 
-*Como parte de la evaluación técnica, estas son las funcionalidades y optimizaciones que implementaría con más tiempo para escalar el sistema:*
+*As part of the technical assessment, these are the functionalities and optimizations I would implement with more time to scale the system:*
 
-### Seguridad y Usuarios
-- **Sistema de Autenticación (Login)**: Implementar un flujo de acceso seguro con JWT para proteger las rutas y gestionar sesiones.
-- **Gestión de Roles**: Diferenciar permisos entre administradores de soporte y usuarios finales.
+### Security and Users
+- **Authentication System (Login)**: Implement a secure access flow with JWT to protect routes and manage sessions.
+- **Role Management**: Differentiate permissions between support administrators and end users.
 
-### Colaboración y Comunicación
-- **Comentarios en Tickets**: Añadir una sección de historial de comentarios dentro de cada ticket para facilitar el seguimiento.
-- **Notificaciones de Cambios**: Implementar alertas en tiempo real o correos electrónicos cuando el estado de un ticket sea actualizado.
+### Collaboration and Communication
+- **Ticket Comments**: Add a comment history section within each ticket to facilitate tracking.
+- **Change Notifications**: Implement real-time alerts or emails when a ticket's status is updated.
 
-### Funcionalidades del Sistema
-- **Sección de Configuración**: Panel de ajustes para que el usuario personalice su perfil y preferencias del sistema.
-- **Manejo de Adjuntos**: Permitir la carga de imágenes o documentos para proporcionar más contexto en los reportes de soporte.
+### System Features
+- **Settings Section**: Settings panel for users to customize their profile and system preferences.
+- **Attachment Handling**: Allow uploading of images or documents to provide more context in support reports.
 
-### Excelencia Técnica
-- **Testing Robusto**: Agregar **Unit Tests** (Vitest) y **E2E Tests** (Cypress) para asegurar la estabilidad de las operaciones críticas.
-- **Optimización de Caché**: Integrar **React Query (TanStack Query)** para manejar estados de "stale-while-revalidate" y reducir la latencia de la red.
-- **Documentación de Componentes**: Implementar **Storybook** para documentar la biblioteca de UI y facilitar la escalabilidad del diseño.
+### Technical Excellence
+- **Robust Testing**: Add **Unit Tests** (Vitest) and **E2E Tests** (Cypress) to ensure stability of critical operations.
+- **Cache Optimization**: Integrate **React Query (TanStack Query)** to handle "stale-while-revalidate" states and reduce network latency.
+- **Component Documentation**: Implement **Storybook** to document the UI library and facilitate design scalability.
