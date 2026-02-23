@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useTickets, useModal, useLanguage } from '../../hooks';
+import { useTickets, useModal, useLanguage, useDebounce } from '../../hooks';
+import { useTicketStore } from '../../store/ticketStore';
 import {
   TicketFilters,
   TicketTable,
@@ -14,6 +15,9 @@ export const TicketsPage = () => {
   const { tickets, pagination, isLoading, fetchTickets } = useTickets();
   const { isOpen, modalType, selectedId, openModal, closeModal } = useModal();
   const { t } = useLanguage();
+  const { filters } = useTicketStore();
+
+  const debouncedSubject = useDebounce(filters.subject, 500);
 
   const [toast, setToast] = useState<{
     show: boolean;
@@ -27,8 +31,9 @@ export const TicketsPage = () => {
   } | null>(null);
 
   useEffect(() => {
-    fetchTickets();
-  }, [fetchTickets]);
+    fetchTickets(1);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSubject, filters.priority, filters.status, filters.sort_by, filters.sort_dir]);
 
   const handlePageChange = (page: number) => {
     fetchTickets(page);

@@ -21,21 +21,23 @@ export const useTickets = () => {
   } = useTicketStore();
 
   const fetchTickets = useCallback(
-    async (page: number = pagination.current_page) => {
+    async (page: number = 1) => {
       setLoading(true);
       setError(null);
 
       try {
+        const currentFilters = useTicketStore.getState().filters;
+        
         const params: Record<string, unknown> = {
           page,
           per_page: DEFAULT_PER_PAGE,
         };
 
-        if (filters.subject) params.subject = filters.subject;
-        if (filters.priority && filters.priority !== 'all') params.priority = filters.priority;
-        if (filters.status && filters.status !== 'all') params.status = filters.status;
-        if (filters.sort_by) params.sort_by = filters.sort_by;
-        if (filters.sort_dir) params.sort_dir = filters.sort_dir;
+        if (currentFilters.subject) params.search = currentFilters.subject;
+        if (currentFilters.priority && currentFilters.priority !== 'all') params.priority = currentFilters.priority;
+        if (currentFilters.status && currentFilters.status !== 'all') params.status = currentFilters.status;
+        if (currentFilters.sort_by) params.sort_by = currentFilters.sort_by;
+        if (currentFilters.sort_dir) params.sort_dir = currentFilters.sort_dir;
 
         const response = await ticketAPI.getAll(params);
 
@@ -48,7 +50,7 @@ export const useTickets = () => {
         setLoading(false);
       }
     },
-    [filters, pagination.current_page, setTickets, setPagination, setLoading, setError],
+    [setTickets, setPagination, setLoading, setError],
   );
 
   const createTicket = useCallback(
